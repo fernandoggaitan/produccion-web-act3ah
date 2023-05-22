@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ProductoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,19 +20,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('test/', function () {
-    
-    /*
-    $categoria = Categoria::create([
-        'nombre' => 'Consolas',
-        'descripcion' => 'Consolas de videojuegos como Nintendo, Playstation, Xbox o consolas retro'
-    ]);
-
-    return "Se insertó una categoría con el id: {$categoria->id}";
-    */
-
-});
-
 route::get('categorias', [
     CategoriaController::class, 'index'
 ])->name('categorias.index');
@@ -39,6 +27,8 @@ route::get('categorias', [
 route::get('categorias/{categoria}', [
     CategoriaController::class, 'show'
 ])->name('categorias.show');
+
+Route::resource('productos', ProductoController::class);
 
 Auth::routes();
 
