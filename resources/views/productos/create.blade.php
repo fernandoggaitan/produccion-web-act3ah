@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-admin')
 
 @section('content')
 <div class="container">
@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form class="m-3" action="{{ route('productos.store') }}" method="POST">          
+                    <form class="m-3" action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <label for="nombre" class="form-label"> Nombre </label>
@@ -41,6 +41,10 @@
                         <div class="mb-3">
                             <label for="descripcion" class="form-label"> Descripción </label>
                             <textarea class="form-control" name="descripcion" id="descripcion" cols="30" rows="10" placeholder="Ingrese la descripción del producto">{{ old('descripcion') }}</textarea>                           
+                        </div>
+                        <div class="mb-3">
+                            <label for="imagen" class="form-label"> Imagen </label>
+                            <input type="file" class="form-control" id="imagen" name="imagen">
                         </div>
                         <button type="submit" class="btn btn-success"> Crear </button>
                         <a class="btn btn-danger" href="{{ route('productos.index') }}"> Cancelar </a>

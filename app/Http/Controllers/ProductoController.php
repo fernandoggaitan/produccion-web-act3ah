@@ -53,6 +53,7 @@ class ProductoController extends Controller
             'precio' => 'numeric|max:9999999',
             'categoria_id' => 'required',
             'descripcion' => 'required',
+            'imagen' => 'required|mimes:jpg,bmp,png,gif'
         ], [
             'nombre.required' => 'El nombre es obligatorio'
         ]);
@@ -64,12 +65,19 @@ class ProductoController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
+        //Nombre del archivo que subió el usuario.
+        $imagen_nombre = time() . $request->file('imagen')->getClientOriginalName();
+        
+        //Subir el archivo.
+        $imagen = $request->file('imagen')->storeAs('productos', $imagen_nombre, 'public');
         
         Producto::create([
             'nombre' => $request->nombre,
             'precio' => $request->precio,
             'categoria_id' => $request->categoria_id,
             'descripcion' => $request->descripcion,
+            'imagen' => $imagen
         ]);
 
         return redirect()
