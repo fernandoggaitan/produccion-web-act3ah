@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\AdvertenciaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,15 +21,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-route::get('categorias', [
-    CategoriaController::class, 'index'
-])->name('categorias.index');
 
-route::get('categorias/{categoria}', [
-    CategoriaController::class, 'show'
-])->name('categorias.show');
+Route::group( [ 'middleware' => ['auth'] ], function(){
+    
+    route::get('categorias', [
+        CategoriaController::class, 'index'
+    ])->name('categorias.index');
+    
+    route::get('categorias/{categoria}', [
+        CategoriaController::class, 'show'
+    ])->name('categorias.show');
 
-Route::resource('productos', ProductoController::class);
+    Route::group( [ 'middleware' => ['is_admin'] ], function(){
+    
+        Route::resource('productos', ProductoController::class);
+
+    } );
+
+} );
+
+Route::get('advertencia/mensaje', [
+    AdvertenciaController::class, 'mensaje'
+])->name('advertencia.mensaje');
 
 Auth::routes();
 
